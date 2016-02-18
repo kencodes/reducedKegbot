@@ -1,0 +1,27 @@
+#maps tap numbers to pin numbers for flow meters {tap:pin...}
+#   Tap 1 -> BCM Pin Number: 17, Header pin number: 11
+#   Tap 2 -> BCM Pin Number: 27, Header pin number: 13
+#   Tap 3 -> BCM Pin Number: 22, Header pin number: 15
+FLOW_PINS:
+    1: 17
+    2: 27
+    3: 22
+
+# actual value for pulses per oz.
+CTS_PER_OZ: 170.5
+
+# Low volume threshold
+LOW_VOL_THRESH: 2.0
+
+# How long to wait after flow activity before opening and updating
+# the taps.yaml file
+YAML_WAIT_TIME: 10
+
+# Arduino serial communication settings
+SERIAL_PORT_LINUX: "/dev/serial/by-id/usb-Arduino__www.arduino.cc__0043_64935343533351D0C0A2-if00"
+SERIAL_PORT_WINDOWS: COM8
+SERIAL_BAUD: 115200
+
+# set greater than 0 to make things print out development messages
+VERBOSITY: 2 
+

@@ -68,7 +68,9 @@ APP_SECRET = secret_config['APP_SECRET']
 OAUTH_TOKEN = secret_config['OAUTH_TOKEN']
 OAUTH_TOKEN_SECRET = secret_config['OAUTH_TOKEN_SECRET']
 TWITTER_SEARCH_TERM = secret_config['TWITTER_SEARCH_TERM']
-TWITTER_REGEX = r"#NUVATION_KEGBOT (\d):(\d+\.\d*):([a-zA-Z]+):(\d+/\d+/\d+):(.*):(.*)"
+# Twitter command format:
+# #NUVATION_KEGBOT <tap>:<currentKegGallons>:<kegSizeGallons>:<ACTIVE | INACTIVE>:<date tapped>:<FullBeerName>:<Short Beer Name>
+TWITTER_REGEX = r"#NUVATION_KEGBOT (\d):(\d+\.\d*):(\d+\.\d*):([a-zA-Z]+):(\d+/\d+/\d+):(.*):(.*)"
 APPROVED_TWITTER_ADMINS = secret_config['APPROVED_TWITTER_ADMINS']
 # Make a twitter object for SENDING tweets
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
@@ -214,14 +216,14 @@ def update_keg_data(taps_dict):
     update_taps_json(taps_dict)
 
 
-def update_taps_dict(tap, starting_vol, is_active, date_tapped, long_name, short_name):
+def update_taps_dict(tap, current_keg_vol, total_keg_vol, is_active, date_tapped, long_name, short_name):
     '''
     Given a set of parameters for a single new keg, this function updates
     the taps.yaml to reflect that new keg
     '''
     # Edit the taps dictionary
-    taps[tap][0] = starting_vol
-    taps[tap][1] = starting_vol
+    taps[tap][0] = current_keg_vol
+    taps[tap][1] = total_keg_vol
     taps[tap][2] = is_active
     taps[tap][3] = date_tapped
     taps[tap][4] = long_name
@@ -232,7 +234,8 @@ def pushbullet_new_keg_update(taps, pb_object):
     pb_title = "New Keg!"
     pb_msg = "Tap 1: %s (%.2f gal.)\nTap 2: %s (%.2f gal.)\nTap 3: %s (%.2f gal.)" % (taps[1][5], taps[1][0], taps[2][5], taps[2][0], taps[3][5], taps[3][0])
     print("Sent New-Keg Push!")
-    push = pb_object.push_note(pb_title, pb_msg)
+    push = pb_kegbot_channel.push_note(pb_title, pb_msg)
+    #push = pb_object.push_note(pb_title, pb_msg)
 
 def tweet_new_keg_update(taps, new_keg_tap_num):
     # TWITTER
@@ -271,7 +274,8 @@ def tweet_checker(tweets_queue):
     new_tweet = tweets_queue.popleft()
     if 'text' in new_tweet:
         check_tweet = new_tweet['text'].encode('utf-8')
-        print("converted tweet to text")
+        print("converted tweet to text: {}".format(check_tweet))
+        print("Comparing to regex: {}".format(TWITTER_REGEX))
         # Check whether the expression matches the date string
         if re.search(TWITTER_REGEX, check_tweet):
             print("Tweet matched regex")
@@ -279,13 +283,14 @@ def tweet_checker(tweets_queue):
                 print("Tweet came from an approved Kegbot admin")
                 m = re.search(TWITTER_REGEX, check_tweet)
                 tap = int(m.group(1)) 
-                starting_vol = float(m.group(2))
-                is_active = m.group(3) # string
-                date_tapped = m.group(4) # string
-                long_name = m.group(5) # string
-                short_name = m.group(6) # string
-                print("Putting %.2f gal. (%.1fL) of %s on Tap #%d" % (starting_vol, starting_vol*3.785, long_name, tap))
-                update_taps_dict(tap, starting_vol, is_active, date_tapped, long_name, short_name)
+                current_keg_vol = float(m.group(2))
+                total_keg_vol = float(m.group(3))
+                is_active = m.group(4) # string
+                date_tapped = m.group(5) # string
+                long_name = m.group(6) # string
+                short_name = m.group(7) # string
+                print("Putting %.2f gal. (%.1fL) of %s on Tap #%d" % (current_keg_vol, current_keg_vol*3.785, long_name, tap))
+                update_taps_dict(tap, current_keg_vol, total_keg_vol, is_active, date_tapped, long_name, short_name)
                 update_taps_yaml(taps)
                 update_taps_json(taps)
                 tweet_new_keg_update(taps, tap)
@@ -317,6 +322,7 @@ except:
 # Make a Pushbullet object
 try:
     pb = Pushbullet(PUSHBULLET_ACCESS_TOKEN)
+    pb_kegbot_channel = pb.channels[0]
     print("Configured pushbullet...")
 except:
     print("Could not start pushbullet interface")
@@ -343,9 +349,12 @@ if __name__ == '__main__':
         while True:
         ########### Check Flow Meters ##############
             # Read flow data from serial interface
-            flow_input = ser.readline().strip()
+            try:
+                flow_input = ser.readline().strip()
+            except:
+                print("Couldn't read serial data")
+                time.sleep(1)
             # Use regex search to extract flow count for each tap
-            print(flow_input)
             if re.search(FLOW_REGEX, flow_input):
                 flow_data = re.search(FLOW_REGEX, flow_input)
                 # Save flow data to a list
@@ -365,10 +374,7 @@ if __name__ == '__main__':
                 print("Tweet queue has {0} tweet(s)".format(len(tweet_queue)))
                 # Send tweet to tweet_checker
                 tweet_checker(tweet_queue)
-                
 
-                
-                
     except (KeyboardInterrupt, SystemExit):
         # Stop Cron Scheduler
         print("Shutting down cron scheduler...")

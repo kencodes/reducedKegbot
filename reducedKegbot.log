@@ -19527,3 +19527,58 @@ TypeError: %d format: a number is required, not str
 [2016/18/02 23:15:07] Added job "send_status_email" to job store "default"
 [2016/18/02 23:15:07] Scheduler started
 [2016/18/02 23:15:07] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:04:38] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:04:40] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:04:40] Added job "send_status_email" to job store "default"
+[2016/19/02 00:04:40] Scheduler started
+[2016/19/02 00:04:40] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:10:06] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:10:18] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:10:18] Added job "send_status_email" to job store "default"
+[2016/19/02 00:10:18] Scheduler started
+[2016/19/02 00:10:19] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:11:33] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:11:40] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:11:40] Added job "send_status_email" to job store "default"
+[2016/19/02 00:11:40] Scheduler started
+[2016/19/02 00:11:41] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:11:46] Scheduler has been shut down
+[2016/19/02 00:12:10] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:12:12] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:12:12] Added job "send_status_email" to job store "default"
+[2016/19/02 00:12:12] Scheduler started
+[2016/19/02 00:12:12] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:15:25] Scheduler has been shut down
+[2016/19/02 00:15:33] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:15:40] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:15:40] Added job "send_status_email" to job store "default"
+[2016/19/02 00:15:40] Scheduler started
+[2016/19/02 00:15:40] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:16:03] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 00:21:43] Scheduler has been shut down
+[2016/19/02 00:23:29] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:23:36] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:23:36] Added job "send_status_email" to job store "default"
+[2016/19/02 00:23:36] Scheduler started
+[2016/19/02 00:23:37] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:24:09] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 00:29:27] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:29:39] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:29:39] Added job "send_status_email" to job store "default"
+[2016/19/02 00:29:39] Scheduler started
+[2016/19/02 00:29:39] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:30:02] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 00:38:24] Scheduler has been shut down
+[2016/19/02 00:38:34] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:38:41] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:38:41] Added job "send_status_email" to job store "default"
+[2016/19/02 00:38:41] Scheduler started
+[2016/19/02 00:38:41] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:40:43] Scheduler has been shut down
+[2016/19/02 00:40:53] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 00:41:05] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 00:41:05] Added job "send_status_email" to job store "default"
+[2016/19/02 00:41:05] Scheduler started
+[2016/19/02 00:41:05] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 00:42:11] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 00:42:12] Resetting dropped connection: api.pushbullet.com

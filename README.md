@@ -2,12 +2,17 @@
 Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It runs on a Raspberry Pi and reads flow meters that are connected to our beer taps. Its purpose is to report what is on tap and how much is left.
 
 ### To Do ###
+* Write script to update python and html files from git
+  * User must run script manually to update the files
+* Add gas shutoff valves to leftside kegerator, one after regulator, one on each side of Wye
+* Make browser run at boot and show http://localhost in fullscreen mode
+* Make kiosk display remove cursor from middle of screen
+* Determine why taps.yaml was erased
+
+### Done ###
 * Finish renaming from reducedKegbot or kegbot to DiscoFridge
 * Add Arduino code to this repo
 * Add temperature sensor interface to Arduino
-* Write script to update python and html files from git
-  * User must run script manually to update the files
-* Add shutoff valves to leftside kegerator, one after regulator, one on each side of Wye
 
 ### What is this repository for? ###
 * All python and related source files

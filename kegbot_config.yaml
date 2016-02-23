@@ -1,12 +1,3 @@
-#maps tap numbers to pin numbers for flow meters {tap:pin...}
-#   Tap 1 -> BCM Pin Number: 17, Header pin number: 11
-#   Tap 2 -> BCM Pin Number: 27, Header pin number: 13
-#   Tap 3 -> BCM Pin Number: 22, Header pin number: 15
-FLOW_PINS:
-    1: 17
-    2: 27
-    3: 22
-
 # actual value for pulses per oz.
 CTS_PER_OZ: 170.5
 
@@ -23,5 +14,4 @@ SERIAL_PORT_WINDOWS: COM8
 SERIAL_BAUD: 115200
 
 # set greater than 0 to make things print out development messages
-VERBOSITY: 2 
-
+VERBOSITY: 0

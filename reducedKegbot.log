@@ -19582,3 +19582,109 @@ TypeError: %d format: a number is required, not str
 [2016/19/02 00:41:05] Starting new HTTPS connection (1): stream.twitter.com
 [2016/19/02 00:42:11] Starting new HTTPS connection (1): api.twitter.com
 [2016/19/02 00:42:12] Resetting dropped connection: api.pushbullet.com
+[2016/19/02 00:59:36] Resetting dropped connection: api.twitter.com
+[2016/19/02 01:00:50] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 01:00:57] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 01:00:57] Added job "send_status_email" to job store "default"
+[2016/19/02 01:00:57] Scheduler started
+[2016/19/02 01:00:57] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 01:01:44] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 01:03:48] Scheduler has been shut down
+[2016/19/02 01:04:21] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 01:04:23] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 01:04:23] Added job "send_status_email" to job store "default"
+[2016/19/02 01:04:23] Scheduler started
+[2016/19/02 01:04:23] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 01:05:16] Starting new HTTPS connection (1): api.twitter.com
+[2016/19/02 15:57:57] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 15:58:04] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 15:58:04] Added job "send_status_email" to job store "default"
+[2016/19/02 15:58:04] Scheduler started
+[2016/19/02 15:58:04] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 16:00:00] Running job "send_status_email (trigger: cron[hour='16'], next run at: 2016-02-20 16:00:00 UTC)" (scheduled at 2016-02-19 16:00:00+00:00)
+[2016/19/02 16:00:12] Job "send_status_email (trigger: cron[hour='16'], next run at: 2016-02-20 16:00:00 UTC)" executed successfully
+[2016/19/02 22:28:55] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:28:58] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:28:58] Added job "send_status_email" to job store "default"
+[2016/19/02 22:28:58] Scheduler started
+[2016/19/02 22:28:58] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 22:34:22] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:34:29] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:34:29] Added job "send_status_email" to job store "default"
+[2016/19/02 22:34:29] Scheduler started
+[2016/19/02 22:34:29] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 22:35:00] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:35:02] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:35:02] Added job "send_status_email" to job store "default"
+[2016/19/02 22:35:02] Scheduler started
+[2016/19/02 22:35:03] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 22:35:50] Scheduler has been shut down
+[2016/19/02 22:44:43] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:44:50] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:44:50] Added job "send_status_email" to job store "default"
+[2016/19/02 22:44:50] Scheduler started
+[2016/19/02 22:44:50] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 22:45:14] Scheduler has been shut down
+[2016/19/02 22:49:48] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:49:54] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:49:54] Added job "send_status_email" to job store "default"
+[2016/19/02 22:49:54] Scheduler started
+[2016/19/02 22:49:54] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 22:50:02] Scheduler has been shut down
+[2016/19/02 22:55:00] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 22:55:12] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 22:55:12] Added job "send_status_email" to job store "default"
+[2016/19/02 22:55:12] Scheduler started
+[2016/19/02 22:55:12] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 23:02:57] Scheduler has been shut down
+[2016/19/02 23:03:05] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/19/02 23:03:12] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/19/02 23:03:12] Added job "send_status_email" to job store "default"
+[2016/19/02 23:03:12] Scheduler started
+[2016/19/02 23:03:12] Starting new HTTPS connection (1): stream.twitter.com
+[2016/19/02 23:03:33] Scheduler has been shut down
+[2016/23/02 20:19:42] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:19:49] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:19:49] Added job "send_status_email" to job store "default"
+[2016/23/02 20:19:49] Scheduler started
+[2016/23/02 20:23:37] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:23:49] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:23:49] Added job "send_status_email" to job store "default"
+[2016/23/02 20:23:49] Scheduler started
+[2016/23/02 20:24:44] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:24:46] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:24:46] Added job "send_status_email" to job store "default"
+[2016/23/02 20:24:46] Scheduler started
+[2016/23/02 20:28:30] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:28:37] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:28:37] Added job "send_status_email" to job store "default"
+[2016/23/02 20:28:37] Scheduler started
+[2016/23/02 20:30:21] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:30:32] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:30:32] Added job "send_status_email" to job store "default"
+[2016/23/02 20:30:32] Scheduler started
+[2016/23/02 20:31:28] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:31:30] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:31:30] Added job "send_status_email" to job store "default"
+[2016/23/02 20:31:30] Scheduler started
+[2016/23/02 20:33:55] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:34:00] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:34:00] Added job "send_status_email" to job store "default"
+[2016/23/02 20:34:00] Scheduler started
+[2016/23/02 20:34:01] Starting new HTTPS connection (1): stream.twitter.com
+[2016/23/02 20:37:03] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:37:20] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:37:20] Added job "send_status_email" to job store "default"
+[2016/23/02 20:37:20] Scheduler started
+[2016/23/02 20:37:21] Starting new HTTPS connection (1): stream.twitter.com
+[2016/23/02 20:38:08] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:38:10] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:38:10] Added job "send_status_email" to job store "default"
+[2016/23/02 20:38:10] Scheduler started
+[2016/23/02 20:38:10] Starting new HTTPS connection (1): stream.twitter.com
+[2016/23/02 20:38:21] Starting new HTTPS connection (1): api.twitter.com
+[2016/23/02 20:39:05] Scheduler has been shut down
+[2016/23/02 20:39:35] Starting new HTTPS connection (1): api.pushbullet.com
+[2016/23/02 20:39:42] Adding job tentatively -- it will be properly scheduled when the scheduler starts
+[2016/23/02 20:39:42] Added job "send_status_email" to job store "default"
+[2016/23/02 20:39:42] Scheduler started

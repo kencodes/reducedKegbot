@@ -58,7 +58,7 @@ secret_config = yaml.load(secret_config_yaml)
 secret_config_yaml.close()
 
 # EMAIL
-KEGBOT_ADMINS = secret_config['KEGBOT_ADMINS']
+DISCOFRIDGE_ADMINS = secret_config['DISCOFRIDGE_ADMINS']
 kb_email_addr = secret_config['kegbot_email_addr']
 smtp_server = secret_config['smtp_server']
 
@@ -69,12 +69,11 @@ OAUTH_TOKEN = secret_config['OAUTH_TOKEN']
 OAUTH_TOKEN_SECRET = secret_config['OAUTH_TOKEN_SECRET']
 TWITTER_SEARCH_TERM = secret_config['TWITTER_SEARCH_TERM']
 # Twitter command format:
-# #NUVATION_KEGBOT <tap>:<currentKegGallons>:<kegSizeGallons>:<ACTIVE | INACTIVE>:<date tapped>:<FullBeerName>:<Short Beer Name>
+# #NUVATION_DISCOFRIDGE <tap>:<currentKegGallons>:<kegSizeGallons>:<ACTIVE | INACTIVE>:<date tapped>:<FullBeerName>:<Short Beer Name>
 TWITTER_REGEX = r"#NUVATION_KEGBOT (\d):(\d+\.\d*):(\d+\.\d*):([a-zA-Z]+):(\d+/\d+/\d+):(.*):(.*)"
 APPROVED_TWITTER_ADMINS = secret_config['APPROVED_TWITTER_ADMINS']
 # Make a twitter object for SENDING tweets
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-
 # Pushbullet
 PUSHBULLET_ACCESS_TOKEN = secret_config['PUSHBULLET_ACCESS_TOKEN']
 
@@ -82,10 +81,6 @@ PUSHBULLET_ACCESS_TOKEN = secret_config['PUSHBULLET_ACCESS_TOKEN']
 taps_yaml = open(config_path+"/taps.yaml", 'r')
 taps = yaml.load(taps_yaml)
 taps_yaml.close()
-# Immediately update the JSON file for the website
-with open('/var/www/html/taps.json', 'w') as jsonfile:
-    json.dump(taps, jsonfile, indent=4)
-    jsonfile.close()
     
 # Import configuration from kegbot_config.yaml
 kegbot_config_yaml = open(config_path+"/kegbot_config.yaml", 'r')
@@ -105,7 +100,7 @@ low_vol_thresh = kb_config['LOW_VOL_THRESH']
 yaml_wait_time = kb_config['YAML_WAIT_TIME']
 
 # Regex for parsing flow data from Arduino
-FLOW_REGEX = r"tap1:(\d+) tap2:(\d+) tap3:(\d+)"
+FLOW_REGEX = r"tap1:(\d+) tap2:(\d+) tap3:(\d+) temp1:(\d+\.\d+)"
 # Serial communication with sensor interface (Arduino)
 serial_baud = kb_config['SERIAL_BAUD']
 if _platform == "linux" or _platform == "linux2": # linux
@@ -117,6 +112,7 @@ elif _platform == "win32": # Windows...
 email_subject = ""
 email_body = ""
 tap_flow_counts = [0, 0, 0]
+temperature = [0.0, 0.0, 0.0]
 
 
 #####################################################
@@ -129,17 +125,15 @@ def send_status_email(): #(taps):
     # Generate status email message body
     email_body = generate_email_body(taps)
     # send email update with volumes    
-    send_email(kb_email_addr, KEGBOT_ADMINS, email_subject, email_body, smtp_server)
-    print("Sent status email")
+    send_email(kb_email_addr, DISCOFRIDGE_ADMINS, email_subject, email_body, smtp_server)
+    #print("Sent status email")
 
 def generate_email_subject(taps_dict):
-    # subject = "TESTSUBJECT, time is: %s" % datetime.now()
-    subject = "KEGBOT STATUS"
+    subject = "Tap1:{0} Tap2:{1} Tap3:{2}".format(taps_dict[1][0], taps_dict[2][0], taps_dict[3][0])
     # Check if any taps should generate alert
-    # print("Looking for kegs under %.2f" % low_vol_thresh)
     for tap in taps_dict:
         if taps_dict[tap][2] == "ACTIVE" and taps_dict[tap][0] < low_vol_thresh:
-            subject = "- ALERT - %.2f GAL REMAINING ON TAP %d" % (taps_dict[tap][0], tap)
+            subject = "LOW KEG ALERT"
             break
     return subject
     
@@ -149,14 +143,14 @@ def generate_email_body(taps_dict):
     
     '''
     body = '''
-Tap 1, %s, %.2fgal (%dL) remaining\n
-Tap 2, %s, %.2fgal (%dL) remaining\n
-Tap 3, %s, %.2fgal (%dL) remaining''' % (taps_dict[1][4], taps_dict[1][0],
-                                        (3.78541178*taps_dict[1][0]),
+Tap 1, %s, %.2fgal (%.1fL) remaining\n
+Tap 2, %s, %.2fgal (%.1fL) remaining\n
+Tap 3, %s, %.2fgal (%.1fL) remaining''' % (taps_dict[1][4], taps_dict[1][0],
+                                        (3.7854*taps_dict[1][0]),
                                         taps_dict[2][4], taps_dict[2][0],
-                                        (3.78541178*taps_dict[2][0]),
+                                        (3.785*taps_dict[2][0]),
                                         taps_dict[3][4], taps_dict[3][0],
-                                        (3.78541178*taps_dict[3][0]))
+                                        (3.785*taps_dict[3][0]))
     return body
 
 def send_email(from_email, to_email, msg_subj, msg_body, mail_server):
@@ -189,32 +183,33 @@ def convert_to_volume(flow_counts):
         gallons_poured = ounces_poured / 128
         # Update current gallons remaining for this keg
         taps[ii+1][0] = taps[ii+1][0] - gallons_poured
-    print("New volumes: tap1: {0:.2f}gal, tap2: {1:.2f}gal, tap3: {2:.2f}gal".format(taps[1][0], taps[2][0], taps[3][0]))
-
     
-def update_taps_yaml(taps_dict):#tap, starting_vol, is_active, date_tapped, long_name, short_name):
-    '''
+def update_taps_yaml(taps_dict):
+    ''' 
     Updates the taps.yaml file, which stores beer data
     '''
     with open('taps.yaml', 'w') as outfile:
         outfile.write(yaml.dump(taps_dict, default_flow_style=False))
         outfile.close()
 
-def update_taps_json(taps_dict):#tap, starting_vol, is_active, date_tapped, long_name, short_name):
+def update_taps_json(taps_dict, temps):
     '''
     Updates the json file, which is used by the website to display beer data
     '''
+    temporary_dict = taps_dict.copy()
+    temporary_dict['temperature'] = temps
     with open('/var/www/html/taps.json', 'w') as jsonfile:
-        json.dump(taps_dict, jsonfile, indent=4)
+        json.dump(temporary_dict, jsonfile, indent=4)#(taps_dict, jsonfile, indent=4)
         jsonfile.close()
         
-def update_keg_data(taps_dict):
-    '''
-    Calls functions to update the
-    '''
-    update_taps_yaml(taps_dict)
-    update_taps_json(taps_dict)
-
+    # taps_dict['temperature'] = temps
+    # with open('/var/www/html/taps.json', 'w') as jsonfile:
+        # json.dump(temporary_dict, jsonfile, indent=4)#(taps_dict, jsonfile, indent=4)
+        # jsonfile.close()
+    # try:
+        # taps_dict.pop('temperature', None)
+    # except:
+        # pass
 
 def update_taps_dict(tap, current_keg_vol, total_keg_vol, is_active, date_tapped, long_name, short_name):
     '''
@@ -235,7 +230,6 @@ def pushbullet_new_keg_update(taps, pb_object):
     pb_msg = "Tap 1: %s (%.2f gal.)\nTap 2: %s (%.2f gal.)\nTap 3: %s (%.2f gal.)" % (taps[1][5], taps[1][0], taps[2][5], taps[2][0], taps[3][5], taps[3][0])
     print("Sent New-Keg Push!")
     push = pb_kegbot_channel.push_note(pb_title, pb_msg)
-    #push = pb_object.push_note(pb_title, pb_msg)
 
 def tweet_new_keg_update(taps, new_keg_tap_num):
     # TWITTER
@@ -264,7 +258,7 @@ class TwitterStream(TwythonStreamer):
 def stream_tweets(tweets_queue):
     try:
         stream = TwitterStream(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET, tweets_queue)
-        stream.statuses.filter(track=TWITTER_SEARCH_TERM)#, language='en')
+        stream.statuses.filter(track=TWITTER_SEARCH_TERM)
     except ChunkedEncodingError:
         # Sometimes the API sends back one byte less than expected which results in an exception in the
         # current version of the requests library
@@ -274,37 +268,53 @@ def tweet_checker(tweets_queue):
     new_tweet = tweets_queue.popleft()
     if 'text' in new_tweet:
         check_tweet = new_tweet['text'].encode('utf-8')
-        print("converted tweet to text: {}".format(check_tweet))
-        print("Comparing to regex: {}".format(TWITTER_REGEX))
         # Check whether the expression matches the date string
         if re.search(TWITTER_REGEX, check_tweet):
-            print("Tweet matched regex")
             if new_tweet['user']['screen_name'].lower() in APPROVED_TWITTER_ADMINS:
-                print("Tweet came from an approved Kegbot admin")
+                # Extract data from tweet
                 m = re.search(TWITTER_REGEX, check_tweet)
-                tap = int(m.group(1)) 
-                current_keg_vol = float(m.group(2))
-                total_keg_vol = float(m.group(3))
+                tap = int(m.group(1)) # Int tap number
+                current_keg_vol = float(m.group(2)) # Float current volume
+                total_keg_vol = float(m.group(3)) # Float starting volume
                 is_active = m.group(4) # string
                 date_tapped = m.group(5) # string
                 long_name = m.group(6) # string
                 short_name = m.group(7) # string
-                print("Putting %.2f gal. (%.1fL) of %s on Tap #%d" % (current_keg_vol, current_keg_vol*3.785, long_name, tap))
+                # Update beer dictionary
                 update_taps_dict(tap, current_keg_vol, total_keg_vol, is_active, date_tapped, long_name, short_name)
+                # Update beer database (YAML)
                 update_taps_yaml(taps)
-                update_taps_json(taps)
+                # Update beer database (JSON) for website
+                update_taps_json(taps, temperature)
+                # Print update status to console and send update success tweet to user
+                message = "successfully put %.2f gal. (%.1fL) of %s on Tap #%d" % (current_keg_vol, current_keg_vol*3.785, long_name, tap)
+                tweet_confirm_success(new_tweet, message)
+                # Send public update tweet and pushbullet
                 tweet_new_keg_update(taps, tap)
                 pushbullet_new_keg_update(taps, pb)
-                # etc.
             # Correct Regex, but from UNAPPROVED admin. They must be abused.
             else:
-                print("Tweet not from approved admin")
-                #abuse_hacker(data)
+                message = "You are not an approved Discofridge admin"
+                tweet_confirm_success(new_tweet, message)
         else:
             print("Tweet doesn't match regular expression")
     else:
         print("Tweet does not contain text")
 
+def tweet_confirm_success(tweet, msg):
+    '''
+    Sends a confirmation tweet in response to received command tweet.
+    Include date/time to ensure each tweet is unique and does not get rejected
+    '''
+    currtime = datetime.now()
+    formattedTime = currtime.strftime('%m/%d/%y %X%p')
+    message = "@{0} {1} {2}".format(tweet['user']['screen_name'], msg, formattedTime)
+    print(message)
+    try:
+        twitter.update_status(status=message)
+    except:
+        print("Some kind of twitter error. Is beer name too long?")
+        
 #####################################################
 # Program Setup
 #####################################################
@@ -323,7 +333,7 @@ except:
 try:
     pb = Pushbullet(PUSHBULLET_ACCESS_TOKEN)
     pb_kegbot_channel = pb.channels[0]
-    print("Configured pushbullet...")
+    #print("Configured pushbullet...")
 except:
     print("Could not start pushbullet interface")
 
@@ -331,6 +341,7 @@ except:
 #####################################################
 # Main Program Loop
 #####################################################
+flow_input = ""
 
 if __name__ == '__main__':
     sched = BackgroundScheduler()
@@ -343,7 +354,8 @@ if __name__ == '__main__':
     tweet_stream.daemon = True
     tweet_stream.start()
     # Update taps.json to ensure website is accurate
-    update_taps_json(taps)
+    print(taps)
+    update_taps_json(taps, temperature)
     try:
         print("Waiting for flow or Tweets...")
         while True:
@@ -359,19 +371,16 @@ if __name__ == '__main__':
                 flow_data = re.search(FLOW_REGEX, flow_input)
                 # Save flow data to a list
                 tap_flow_counts = [int(flow_data.group(1)), int(flow_data.group(2)), int(flow_data.group(3))]
-                if tap_flow_counts[0] > 0 or tap_flow_counts[1] > 0 or tap_flow_counts[2] > 0:
-                    # Convert tap_flow_counts[] to volume
-                    print(tap_flow_counts)
-                    convert_to_volume(tap_flow_counts)
-                    # Update taps.yaml and taps.json
-                    update_taps_yaml(taps)
-                    update_taps_json(taps)
+                temperature = [float(flow_data.group(4)), 0.0, 0.0]#float(flow_data.group(5)), float(flow_data.group(6))] UNCOMMENT WHEN MORE TEMP SENSORS ADDED
+                # Convert tap_flow_counts[] to volume and update yaml/json files
+                convert_to_volume(tap_flow_counts)
+                update_taps_yaml(taps)
+                update_taps_json(taps, temperature)
             else:
                 print("Regex problem")
                 
         ########### Check tweet queue ##############
             if len(tweet_queue) > 0:
-                print("Tweet queue has {0} tweet(s)".format(len(tweet_queue)))
                 # Send tweet to tweet_checker
                 tweet_checker(tweet_queue)
 

@@ -47,6 +47,41 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
 * Deployment instructions
  * (TBD)
 
+### secret.yaml ###
+The contents of this file are secret and are, therefore, not included in the git repository.  Instead, a symlink is checked into git, which references the actual secret.yaml file, which is in the next directory up from reducedKegbot.  The structure of the real secret.yaml is as follows:
+
+```yaml
+# Administrator Email, Must be saved as lower case
+DISCOFRIDGE_ADMINS:
+    - name1@domain.com
+    - name2@domain.com
+
+# Twitter usernames, excluding the '@' symbol
+APPROVED_TWITTER_ADMINS:
+    - handle1
+    - handle2
+
+# Kegbot's email address, this just appears in the "from" field
+# in email sent from the kegerator
+kegbot_email_addr: Kegbot@domain.com
+
+# EMAIL SERVER
+smtp_server: server.domain.com
+
+# Twython will search Twitter for this term. I used a hashtag with the kegerator name
+TWITTER_SEARCH_TERM: '#HASHTAG'
+
+# Twitter application authentication, get these from twitter when you sign up
+# as a developer. Garbage text is shown here
+APP_KEY : 2lkjagFSADGjg094alkjgn2
+APP_SECRET: j2$TJas;lgij234lkjfdalkjlaf24:LAKjL:KHg323r
+OAUTH_TOKEN: 9843659032-jASGFJ3roiguvfjbjj394agj;
+OAUTH_TOKEN_SECRET: 908slkfdn34AL":JspuqgnqEGQKwrg'qi3ocn;
+
+# Pushbullet Access Token. Get this from Pushbullet when you sign up as an admin
+PUSHBULLET_ACCESS_TOKEN: 's.234jkDLKFJ93fvkwlhasdiu'
+```
+
 ### Contribution guidelines ###
 Suggestions and contributions are welcome and encouraged.  The purpose of this doing this project was for me to try to learn basic software design using a project-based approach. I would appreciate hearing about anything you see wrong with the project or anything that could be improved.
 

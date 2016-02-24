@@ -31,6 +31,14 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
 ```
 @reboot sudo python /home/pi/prj/reducedKegbot/kegbot_main.py >/home/pi/logs/cronlog 2>&1
 ```
+ * Launch Midori in fullscreen mode at startup
+  * <instructions>
+ * Run Unclutter at startup to remove the cursor from the middle of the screen
+  * <instructions>
+  * Add '''@unclutter -idle 0.1 -root''' to /etc/xdg/lxsession/LXDE/autostart
+ 
+ 
+ 
 * Dependencies
  * The following python2 modules will need to be installed
   * Twython `pip install twython`
@@ -46,7 +54,8 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
  * (TBD)
 * Deployment instructions
  * (TBD)
-
+ 
+ 
 ### secret.yaml ###
 The contents of this file are secret and are, therefore, not included in the git repository.  Instead, a symlink is checked into git, which references the actual secret.yaml file, which is in the next directory up from reducedKegbot.  The structure of the real secret.yaml is as follows:
 

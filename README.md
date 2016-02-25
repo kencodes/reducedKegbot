@@ -3,16 +3,23 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
 
 ### To Do ###
 * Write script to update python and html files from git
-  * User must run script manually to update the files
+ * User must run script manually to update the files
 * Add gas shutoff valves to leftside kegerator, one after regulator, one on each side of Wye
 * Make browser run at boot and show http://localhost in fullscreen mode
-* Make kiosk display remove cursor from middle of screen
-* Determine why taps.yaml was erased
+* Determine why taps.yaml gets erased
+* Fix timestamp in "successfully added keg" tweet to local time zone
+* Fix cron scheduler for email to reference local time zone
+* Remove print(taps) when program runs
+* Save taps.yaml to tapsBackup/taps_<date>.yaml, once/day, when email status is sent, to have a record of daily consumption
+ * Used to restore taps.yaml if it is erased
+ * send console/email/twitter message if script had to restore from taps.yaml.backup
+ * Save taps.yaml.backup as the daily yaml backup (tapsBackup/taps<date>.yaml is the record keeping)
+ * On script startup, and periodically, check if len(taps)==0 and, if so, restore from taps.yaml.backup 
 
 ### Done ###
-* Finish renaming from reducedKegbot or kegbot to DiscoFridge
 * Add Arduino code to this repo
 * Add temperature sensor interface to Arduino
+* Make kiosk display remove cursor from middle of screen
 
 ### What is this repository for? ###
 * All python and related source files

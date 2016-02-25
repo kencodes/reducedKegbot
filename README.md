@@ -10,6 +10,7 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
 * Fix timestamp in "successfully added keg" tweet to local time zone
 * Fix cron scheduler for email to reference local time zone
 * Remove print(taps) when program runs
+* At kegbot_main.py exit, update taps.yaml (if len()==3)
 * Save taps.yaml to tapsBackup/taps_<date>.yaml, once/day, when email status is sent, to have a record of daily consumption
  * Used to restore taps.yaml if it is erased
  * send console/email/twitter message if script had to restore from taps.yaml.backup

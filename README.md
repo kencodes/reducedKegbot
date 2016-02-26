@@ -26,6 +26,8 @@ Discofridge (reducedKegbot) is a fork of an earlier Nuvation project, Kegbot. It
 * Make kiosk display remove cursor from middle of screen
 * At kegbot_main.py exit, update taps.yaml (if len()==3)
 * Remove print(taps) when program runs
+* Add support for temp sensors 2 and 3 in Arduino code
+* Update Arduino Regex search to support 3 temperature sensors
 
 ### What is this repository for? ###
 * All python and related source files

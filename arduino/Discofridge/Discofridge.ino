@@ -202,41 +202,44 @@ void loop() {
     for (ii=16; ii < 19; ii++) {
         count=interrupt_count[ii];        // store its count since the last iteration
         interrupt_count[ii]=0;            // and reset it to 0
-        serial_message += " tap";
-        serial_message += ii-15;
-        serial_message += ":";
+        //serial_message += " tap";
+        //serial_message += ii-15;
+        //serial_message += ":";
         serial_message += count;
+        serial_message += ",";
     }
     
     // Read the temperature from the sensor
     if (tempSensor1Found) {
       readTemp(addr1, 1);
-      serial_message += " temp1:";
+      //serial_message += " temp1:";
       serial_message += Whole;
       serial_message += ".";
       serial_message += Fract;
+      serial_message += ",";
     } else {
-      serial_message += " temp1:0.0";
+      serial_message += "0.0,";
     }
     
     if (tempSensor2Found) {
       readTemp(addr2, 2);
-      serial_message += " temp2:";
+      //serial_message += " temp2:";
       serial_message += Whole;
       serial_message += ".";
       serial_message += Fract;
+      serial_message += ",";
     } else {
-      serial_message += " temp2:0.0";
+      serial_message += "0.0,";
     }
     
     if (tempSensor3Found) {
       readTemp(addr3, 3);
-      serial_message += " temp3:";
+      //serial_message += " temp3:";
       serial_message += Whole;
       serial_message += ".";
       serial_message += Fract;
     } else {
-      serial_message += " temp3:0.0";
+      serial_message += "0.0";
     }
 
      // Send serial message
